@@ -1,8 +1,12 @@
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
-import { Context } from '../../utils';
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import { Context, createToken, getUserId } from "../../utils";
 
 export const auth = {
+  async refreshToken(parent, { token }, ctx: Context, info) {
+    const userId = getUserId(ctx, token);
+    return createToken(userId);
+  },
   async signup(parent, args, ctx: Context, info) {
     const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.db.mutation.createUser({
@@ -10,7 +14,7 @@ export const auth = {
     });
 
     return {
-      token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
+      token: createToken(user.id),
       user
     };
   },
@@ -20,8 +24,8 @@ export const auth = {
     if (!user) {
       return {
         error: {
-          field: 'email',
-          message: 'No user found'
+          field: "email",
+          message: "No user found"
         }
       };
     }
@@ -30,15 +34,15 @@ export const auth = {
     if (!valid) {
       return {
         error: {
-          field: 'password',
-          message: 'Invalid password'
+          field: "password",
+          message: "Invalid password"
         }
       };
     }
 
     return {
       payload: {
-        token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
+        token: createToken(user.id),
         user
       }
     };
