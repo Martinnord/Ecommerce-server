@@ -23,9 +23,8 @@ const processUpload = async upload => {
 
 export const product = {
   async createProduct(parent, { name, description, price, image }, ctx: Context, info) {
-    console.log('os htdsad s')
     // const userId = getUserId(ctx)
-    const userId = 1;
+    const userId = 'cjee34nsz003m0143r1sw5cby';
     console.log(image);
     const imageUrl = await processUpload(image);
     console.log(imageUrl);
