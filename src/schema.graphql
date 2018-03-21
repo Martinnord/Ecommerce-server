@@ -6,6 +6,7 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post!
+  product(id: ID!): Product!
   products(
     where: ProductWhereInput
     orderBy: ProductOrderByInput
