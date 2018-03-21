@@ -38,4 +38,7 @@ export const product = {
       info
     )
   },
+  // async product (parent, { id }, ctx: Context, info)  {
+  //   return ctx.db.query.product({ where: { id: id } }, info);
+  // },
 }
