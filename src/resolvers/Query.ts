@@ -3,8 +3,11 @@ import { getUserId, Context } from '../utils';
 
 export const Query = {
   products: (parent, args, ctx: Context, info) => {
-    getUserId(ctx);
+    //getUserId(ctx);
     return forwardTo('db')(parent, args, ctx, info);
+  },
+    product: (parent, { id }, ctx: Context, info) => {
+    return ctx.db.query.product({ where: { id: id } }, info);
   },
   feed(parent, args, ctx: Context, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info);
